@@ -8,7 +8,7 @@ public class Login {
         this.account = account;
     }
 
-    public boolean isAuthenticated(String accountNumber, String pin) {
+    public boolean checkAuthentication(String accountNumber, String pin) {
         return accountNumber.equals(account.getNumber()) && pin.equals(account.getPin());
     }
 
