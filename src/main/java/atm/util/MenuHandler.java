@@ -37,25 +37,32 @@ public class MenuHandler {
             case 2 -> withdrawCash();
             case 3 -> depositFund();
             case 4 -> showLast10Transactions();
-            case 5 -> System.exit(0);
+            case 5 -> {
+                System.out.println("Have a Good Day!");
+                System.exit(0);
+            }
         }
-    }
-
-    private static void depositFund() {
-        System.out.println("Enter \"Deposit Amount\":");
-        double amount = input.nextDouble();
-        account.deposit(amount);
-        System.out.println(account);
     }
 
     private static void withdrawCash() {
-        System.out.println("Enter \"Withdraw Amount\":");
+        System.out.print("Enter \"Withdraw Amount\":");
         double amount = input.nextDouble();
         try {
-            account.withdraw(amount);
+            Transaction transaction = new Transaction(account);
+            transaction.withdraw(amount);
+            account.getTransactionList().add(transaction);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+        System.out.println(account);
+    }
+
+    private static void depositFund() {
+        System.out.print("Enter \"Deposit Amount\":");
+        double amount = input.nextDouble();
+        Transaction transaction = new Transaction(account);
+        transaction.deposit(amount);
+        account.getTransactionList().add(transaction);
         System.out.println(account);
     }
 
@@ -69,7 +76,8 @@ public class MenuHandler {
                 String id = transactionList.get(i).getId();
                 String date = transactionList.get(i).getDate();
                 String trxType = transactionList.get(i).getTransactionType().toString();
-                String output = String.format("Transaction \"%s\":\nTransaction ID: %s\nTransaction Type: %s\nDate: %s", i + 1, id, trxType, date);
+                double amount = transactionList.get(i).getAmount();
+                String output = String.format("Transaction \"%s\":\nTransaction ID: %s\nTransaction Type: %s\nAmount: %s$\nDate: %s", i + 1, id, trxType, amount, date);
                 System.out.println(output + DASH_LINE);
             }
         }

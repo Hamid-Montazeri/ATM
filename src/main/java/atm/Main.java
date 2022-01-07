@@ -6,7 +6,7 @@ import atm.util.MenuHandler;
 
 import java.util.Scanner;
 
-import static atm.util.Constants.*;
+import static atm.util.Constants.DASH_LINE;
 
 
 public class Main {
@@ -16,11 +16,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("----------Welcome----------");
+        System.out.println("---------- Welcome ----------");
 
         while (true) {
             // get account number from user
-            System.out.println("Please Enter your \"Account Number\" (Default -> 12345):");
+            System.out.println("Please Enter your \"Account Number\"(Default -> 12345):");
             String enteredAccountNumber = input.nextLine();
 
             // get account PIN from user

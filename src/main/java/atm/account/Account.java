@@ -1,16 +1,9 @@
 package atm.account;
 
 import atm.transaction.Transaction;
-import atm.transaction.TransactionType;
-import com.ibm.icu.text.DateFormat;
-import com.ibm.icu.util.Calendar;
-import com.ibm.icu.util.ULocale;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static atm.util.Constants.*;
 
@@ -62,7 +55,6 @@ public class Account {
         this.accountType = accountType;
     }
 
-
     public List<Transaction> getTransactionList() {
         return transactionList;
     }
@@ -79,51 +71,9 @@ public class Account {
         this.person = person;
     }
 
-    public void withdraw(double amount) throws Exception {
-        if (this.balance - amount < MIN_BALANCE) {
-            throw new Exception("Entered amount is more than your balance! (Min balance is 20$)");
-        }
-
-        this.balance = (this.balance - amount);
-
-        Transaction transaction = new Transaction(
-                String.valueOf(new Random().nextInt(1000, 9000)),
-                getDate(),
-                TransactionType.WITHDRAW
-        );
-
-        transactionList.add(transaction);
-
-    }
-
-    public void deposit(double amount) {
-        this.balance = this.balance + amount;
-
-        Transaction transaction = new Transaction(
-                String.valueOf(new Random().nextInt(1000, 9000)),
-                getDate(),
-                TransactionType.DEPOSIT
-        );
-
-        transactionList.add(transaction);
-    }
-
-    private String getPersianDate() {
-        ULocale locale = new ULocale("fa_IR@calendar=persian");
-        Calendar calendar = Calendar.getInstance(locale);
-        DateFormat df = DateFormat.getDateInstance(DateFormat.FULL, locale);
-        return df.format(calendar);
-    }
-
-    private String getDate() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        return (dtf.format(now));
-    }
-
     @Override
     public String toString() {
-        return String.format("Your Account Info:" + DASH_LINE + "Account Balance: %s$\nMin Balance: %s$\n------------------------------", balance, MIN_BALANCE);
+        return String.format(DASH_LINE + "Account Balance: %s$\nMin Balance: %s$" + DASH_LINE, balance, MIN_BALANCE);
     }
 
 

@@ -20,7 +20,6 @@ public class Person {
             throw new RuntimeException("\"National Code\" couldn't have more then \"10\" characters!");
         }
 
-
         this.nationalCode = nationalCode;
     }
 
