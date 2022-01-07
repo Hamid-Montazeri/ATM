@@ -1,6 +1,7 @@
 package atm.transaction;
 
 import atm.account.Account;
+import atm.util.DateConverter;
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
@@ -90,8 +91,16 @@ public class Transaction {
     }
 
     private String getCurrentDate() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        return (dtf.format(now));
+//        System.out.println(dtf.format(now));
+        int year = now.getYear();
+        int monthValue = now.getMonthValue();
+        int dayOfMonth = now.getDayOfMonth();
+        int[] params = DateConverter.gregorian_to_jalali(year, monthValue, dayOfMonth);
+        String outputDate = String.format("%s/%s/%s - %s:%s:%s", params[0], params[1], params[2], now.getHour(), now.getMinute(), now.getSecond());
+        return (outputDate);
     }
+
+
 }
