@@ -33,19 +33,20 @@ public class MenuHandler {
             // 3- Deposit Funds
             // 4- Display last 10 trx
             // 5- Exit
-            case 1 -> System.out.println(DASH_LINE + "Your Balance is: \"" + account.getBalance() + "$\"" + DASH_LINE);
+            case 1 -> System.err.println(DASH_LINE + "Your Balance is: \"" + account.getBalance() + "$\"" + DASH_LINE);
             case 2 -> withdrawCash();
             case 3 -> depositFund();
             case 4 -> showLast10Transactions();
             case 5 -> {
-                System.out.println("Have a Good Day!");
+                System.err.println("Have a Good Day! \u270B\uFE0F");
+//                System.err.println("Have a Good Day! \uD83D\uDC4B");
                 System.exit(0);
             }
         }
     }
 
     private static void withdrawCash() {
-        System.out.print("Enter \"Withdraw Amount\":");
+        System.err.print("Enter \"Withdraw Amount\":");
         double amount = input.nextDouble();
         try {
             Transaction transaction = new Transaction(account);
@@ -58,7 +59,7 @@ public class MenuHandler {
     }
 
     private static void depositFund() {
-        System.out.print("Enter \"Deposit Amount\":");
+        System.err.print("Enter \"Deposit Amount\":");
         double amount = input.nextDouble();
         Transaction transaction = new Transaction(account);
         transaction.deposit(amount);
@@ -71,7 +72,12 @@ public class MenuHandler {
         if (transactionList.size() < 1) {
             System.err.println(DASH_LINE + "NO TRANSACTIONS!" + DASH_LINE);
         } else {
-            System.out.println(DASH_LINE + "Number of Transactions: " + transactionList.size() + DASH_LINE);
+            System.err.println(DASH_LINE + "Number of Transactions: " + transactionList.size() + DASH_LINE);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             for (int i = 0; i < transactionList.size(); i++) {
                 String id = transactionList.get(i).getId();
                 String date = transactionList.get(i).getDate();

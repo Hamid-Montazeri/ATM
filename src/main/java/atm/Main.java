@@ -33,7 +33,7 @@ public class Main {
 
             // welcome user if authenticated
             if (isUserAuthenticated) {
-                System.out.println(DASH_LINE + "You Entered Successfully" + DASH_LINE);
+                System.err.println(DASH_LINE + "You Entered Successfully" + DASH_LINE);
                 break;
             } else {
                 System.err.println(DASH_LINE + "Wrong Parameters!" + DASH_LINE);
