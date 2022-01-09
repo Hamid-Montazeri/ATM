@@ -3,11 +3,16 @@ package atm.transaction;
 import atm.account.Account;
 import atm.util.DateConverter;
 import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
 
+import java.text.ParseException;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Random;
 
 import static atm.util.Constants.MIN_BALANCE;
@@ -65,41 +70,22 @@ public class Transaction {
     }
 
     public void withdraw(double amount) throws Exception {
-        if (account.getBalance() - amount < MIN_BALANCE) {
+        if (getAccount().getBalance() - amount < MIN_BALANCE) {
             throw new Exception("Entered amount is more than your balance! (Min balance is 20$)");
         }
         setId(String.valueOf(new Random().nextInt(1000, 9999)));
-        setDate(getCurrentDate());
+        setDate(DateConverter.getPersianDate());
         setTransactionType(TransactionType.WITHDRAW);
         setAmount(amount);
-        account.setBalance(account.getBalance() - amount);
+        getAccount().setBalance(getAccount().getBalance() - amount);
     }
 
     public void deposit(double amount) {
         setId(String.valueOf(new Random().nextInt(1000, 9999)));
-        setDate(getCurrentDate());
+        setDate(DateConverter.getPersianDate());
         setTransactionType(TransactionType.DEPOSIT);
         setAmount(amount);
         account.setBalance(account.getBalance() + amount);
-    }
-
-    private String getPersianDate() {
-        ULocale locale = new ULocale("fa_IR@calendar=persian");
-        Calendar calendar = Calendar.getInstance(locale);
-        DateFormat df = DateFormat.getDateInstance(DateFormat.FULL, locale);
-        return df.format(calendar);
-    }
-
-    private String getCurrentDate() {
-//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-//        System.out.println(dtf.format(now));
-        int year = now.getYear();
-        int monthValue = now.getMonthValue();
-        int dayOfMonth = now.getDayOfMonth();
-        int[] params = DateConverter.gregorian_to_jalali(year, monthValue, dayOfMonth);
-        String outputDate = String.format("%s/%s/%s - %s:%s:%s", params[0], params[1], params[2], now.getHour(), now.getMinute(), now.getSecond());
-        return (outputDate);
     }
 
 

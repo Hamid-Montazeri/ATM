@@ -2,6 +2,16 @@
 package atm.util;
 
 
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.ULocale;
+
+import java.text.ParseException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 public class DateConverter {
 
     /**
@@ -67,6 +77,26 @@ public class DateConverter {
         for (out[2]++; out[1] < 13 && out[2] > sal_a[out[1]]; out[1]++) out[2] -= sal_a[out[1]];
         return out;
     }
+
+    public static String getPersianDate() {
+        ULocale locale = new ULocale("fa_IR@calendar=persian");
+        Calendar calendar = Calendar.getInstance(locale);
+        DateFormat df = DateFormat.getDateInstance(DateFormat.FULL, locale);
+        return df.format(calendar);
+    }
+
+    public static String getCurrentDate() {
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+//        System.out.println(dtf.format(now));
+        int year = now.getYear();
+        int monthValue = now.getMonthValue();
+        int dayOfMonth = now.getDayOfMonth();
+        int[] params = DateConverter.gregorian_to_jalali(year, monthValue, dayOfMonth);
+        String outputDate = String.format("%s/%s/%s - %s:%s:%s", params[0], params[1], params[2], now.getHour(), now.getMinute(), now.getSecond());
+        return outputDate;
+    }
+
 
 }
 
