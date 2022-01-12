@@ -1,9 +1,10 @@
-package atm.account;
+package atm.model;
 
-import atm.transaction.Transaction;
+import atm.util.DateConverter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static atm.util.Constants.*;
 
@@ -23,20 +24,20 @@ public class Account {
         this.transactionList = new ArrayList<>();
     }
 
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
     public String getPin() {
         return pin;
     }
 
     public void setPin(String pin) {
         this.pin = pin;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public double getBalance() {
@@ -69,6 +70,34 @@ public class Account {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public void withdraw(double amount) throws Exception {
+        if (getBalance() - amount < MIN_BALANCE) {
+            throw new Exception("Entered amount is more than your balance! (Min balance is 20$)");
+        }
+        setBalance(balance - amount);
+
+        Transaction transaction = new Transaction(
+                String.valueOf(new Random().nextInt(1000, 9999)),
+                DateConverter.getPersianDate(),
+                amount,
+                TransactionType.WITHDRAW
+        );
+
+        transactionList.add(transaction);
+    }
+
+    public void deposit(double amount) {
+        setBalance(getBalance() + amount);
+
+        Transaction transaction = new Transaction(
+                String.valueOf(new Random().nextInt(1000, 9999)),
+                DateConverter.getPersianDate(),
+                amount,
+                TransactionType.DEPOSIT
+        );
+        transactionList.add(transaction);
     }
 
     @Override

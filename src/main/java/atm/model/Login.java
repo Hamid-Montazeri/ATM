@@ -1,4 +1,4 @@
-package atm.account;
+package atm.model;
 
 public class Login {
 
